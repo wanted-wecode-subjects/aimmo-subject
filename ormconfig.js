@@ -3,5 +3,5 @@ module.exports = {
   database: ":memory:",
   synchronize: true,
   logging: false,
-  entities: ["src/entity/*.ts"],
+  entities: ["src/model/*.ts"],
 };

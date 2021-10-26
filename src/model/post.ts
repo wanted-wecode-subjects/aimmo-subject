@@ -1,13 +1,17 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import User from "./user";
+import { User } from "./user";
 
 @Entity()
-export default class Post {
+export class Post {
   @PrimaryGeneratedColumn()
   public id: string;
+
+  @Column()
+  public title: string;
+
   @Column()
   public content: string;
 
-  @ManyToOne((type) => User)
+  @ManyToOne((type) => User, (user) => user.posts)
   public author: User;
 }

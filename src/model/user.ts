@@ -1,8 +1,8 @@
 import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
-import Post from "./post";
+import { Post } from "./post";
 
 @Entity()
-export default class User {
+export class User {
   @PrimaryColumn()
   public id: string;
 
