@@ -1,6 +1,6 @@
 import "./connection";
 
-import { auth, createUser } from "../src/repository/user.repository";
+import { authenticate, createUser } from "../src/repository/user.repository";
 
 describe("User 데이터베이스  테스트", () => {
   test("성공적인 User 생성 ", async () => {
@@ -16,7 +16,7 @@ describe("User 데이터베이스  테스트", () => {
     const created = await createUser("test2@naver.com", "1q2w3e4r", "Tester");
     expect(created).not.toBeUndefined();
 
-    const authedUser = await auth("test2@naver.com", "1q2w3e4r");
+    const authedUser = await authenticate("test2@naver.com", "1q2w3e4r");
     expect(authedUser).not.toBeUndefined();
     expect(authedUser).toEqual({
       name: "Tester",
@@ -29,7 +29,7 @@ describe("User 데이터베이스  테스트", () => {
     const created = await createUser("test3@naver.com", "1q2w3e4r", "Tester");
     expect(created).not.toBeUndefined();
 
-    const authedUser = await auth("wrong@naver.com", "1q2w3e4r");
+    const authedUser = await authenticate("wrong@naver.com", "1q2w3e4r");
     expect(authedUser).toBeUndefined();
   });
 });

@@ -7,3 +7,17 @@
 - 데이터베이스는 in-memory database로 구현
   - 리뷰어가 Database를 따로 설치할 필요 없이 실행하고 확인할 수 있어야 합니다.
   - 예) sqlite3
+
+# Test
+
+- Create User API
+
+```
+curl -X POST -H "Content-Type: application/json" -d "{\"id\" : \"test\", \"password\": \"123\", \"name\":\"HELLO\"}" http://localhost:8080/api/user
+```
+
+- Authenticate API
+
+```
+curl -X POST -H "Content-Type: application/json" -d "{\"id\" : \"test\", \"password\": \"123\"}" http://localhost:8080/api/user/auth
+```

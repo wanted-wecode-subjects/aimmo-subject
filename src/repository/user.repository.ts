@@ -15,8 +15,13 @@ export async function createUser(
   return await userRepository.save(user);
 }
 
-export async function auth(id: string, password: string) {
+export async function authenticate(id: string, password: string) {
   const userRepository = getConnection().getRepository(User);
   const user = userRepository.findOne({ id, password });
   return user;
 }
+
+export default {
+  createUser,
+  authenticate,
+};

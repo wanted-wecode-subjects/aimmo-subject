@@ -75,3 +75,11 @@ export async function getPaginationPosts(
     },
   };
 }
+
+export default {
+  createPost,
+  getPost,
+  updatePost,
+  deletePost,
+  getPaginationPosts,
+};

@@ -19,5 +19,5 @@
 1. Make post with author [x]
 2. List posts (Pagination) => limit, offset 추가 [x]
 3. Read post with id => 불필요
-4. Update Post with id (Only author)
-5. Delete Post with id (Only author)
+4. Update Post with id (Only author) [x]
+5. Delete Post with id (Only author) [x]
