@@ -99,20 +99,9 @@ router.post("/user/auth", userController.authenticate);
 }
 ```
 
-## `GET /api/post`
+## `GET /api/post?limit=5&offset=1`
 
 Pagination 메타 데이터와 게시글 데이터를 돌려줍니다.
-
-- reqeust
-
-5 페이지 단위로 첫 페이지 호출
-
-```json
-{
-  "limit": 5,
-  "offset": 1
-}
-```
 
 - response
 
@@ -172,28 +161,30 @@ Pagination 메타 데이터와 게시글 데이터를 돌려줍니다.
 }
 ```
 
-## `GET /api/post/[id]`
-
-특정 id에 해당하는 게시글을 돌려줍니다.
-
 ## `DELETE /api/post/[id]`
+
+- Response
+
+```json
+{
+  "success": true
+}
+```
 
 ## `PUT /api/post/[id]`
 
-## `POST /api/user`
+POST와 동일합니다.
 
-## `POST /api/user/auth`
+# 실패 응답은 아래 형식으로 모두 동일합니다.
 
-# curl을 이용한 테스트
-
-- Create User API
-
+```json
+{
+  "success": false,
+  "error": "에러 메세지",
+  "errorCode": 1000
+}
 ```
-curl -X POST -H "Content-Type: application/json" -d "{\"id\" : \"test\", \"password\": \"123\", \"name\":\"HELLO\"}" http://localhost:8080/api/user
-```
 
-- Authenticate API
+# 테스트 방법
 
-```
-curl -X POST -H "Content-Type: application/json" -d "{\"id\" : \"test\", \"password\": \"123\"}" http://localhost:8080/api/user/auth
-```
+간단한 리액트 앱을 public 파일에 빌드된 상태로 올려놨습니다. 해당 앱에서 API들의 일부를 사용하고 있습니다.
