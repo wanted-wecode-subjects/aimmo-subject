@@ -4,8 +4,8 @@
   "private": true,
   "scripts": {
     "start": "nodemon --exec ts-node index.ts",
-    "test": "jest",
-    "test:keep": "jest --watchAll"
+    "test": "jest --runInBand",
+    "test:keep": "jest --watchAll --runInBand "
   },
   "dependencies": {
     "cookie-parser": "^1.4.5",

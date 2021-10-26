@@ -1,4 +1,5 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { PaginationMetadata } from "./pagenation";
 import { User } from "./user";
 
 @Entity()
@@ -14,4 +15,9 @@ export class Post {
 
   @ManyToOne((type) => User, (user) => user.posts)
   public author: User;
+}
+
+export interface PostList {
+  posts: Post[];
+  meta: PaginationMetadata;
 }

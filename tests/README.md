@@ -11,13 +11,13 @@
 
 - User 관련 필요한 쿼리 정리
 
-1. User 생성
-2. User 정보 읽어오기 (로그인을 위해 사용)
+1. User 생성 [x]
+2. User 정보 읽어오기 (로그인을 위해 사용) [x]
 
 - Post 관련 필요한 쿼리 정리
 
-1. Make post with author
-2. List posts (Pagination) => limit, offset 추가
-3. Read post with id
+1. Make post with author [x]
+2. List posts (Pagination) => limit, offset 추가 [x]
+3. Read post with id => 불필요
 4. Update Post with id (Only author)
 5. Delete Post with id (Only author)

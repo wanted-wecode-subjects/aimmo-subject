@@ -11,10 +11,12 @@ const connection = {
   async clear() {
     const connection = getConnection();
     const entities = connection.entityMetadatas;
-    entities.forEach(async (entity) => {
+
+    const entityDeletionPromises = entities.map((entity) => async () => {
       const repository = connection.getRepository(entity.name);
       await repository.query(`DELETE FROM ${entity.tableName}`);
     });
+    await Promise.all(entityDeletionPromises); // 데이터베이스 테스트 동시성을 위해 삽입.
   },
 };
 
