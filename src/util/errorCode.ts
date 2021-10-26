@@ -1,3 +1,4 @@
 export const PARAMENTER_ERROR_CODE = 1000;
 export const NO_EXIST_POST_CODE = 1001;
 export const UNAUTHORIZED_POST_CODE = 1002;
+export const LOGIN_FAIL_CODE = 1003;

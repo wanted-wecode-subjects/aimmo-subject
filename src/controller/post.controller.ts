@@ -12,7 +12,7 @@ export async function getPaginationPosts(
   req: express.Request,
   res: express.Response
 ) {
-  const { limit, offset } = req.body;
+  const { limit, offset } = req.query;
   const pageCount = Number(limit);
   const page = Number(offset);
 
@@ -33,7 +33,7 @@ export async function getPaginationPosts(
 }
 
 export async function getPost(req: express.Request, res: express.Response) {
-  const { id } = req.body;
+  const { id } = req.params;
 
   if (!validatePostId(id)) {
     return res.json({
@@ -44,15 +44,24 @@ export async function getPost(req: express.Request, res: express.Response) {
   }
 
   const data = await postRepository.getPost(id);
-  return res.json({
-    data,
-    succuess: true,
-  });
+  if (data) {
+    return res.json({
+      data,
+      succuess: true,
+    });
+  } else {
+    res.json({
+      success: false,
+      error: "존재하지않는 게시글입니다.",
+      errorCode: NO_EXIST_POST_CODE,
+    });
+  }
 }
 
 export async function createPost(req: express.Request, res: express.Response) {
   const user = req.user!;
   const { title, content } = req.body;
+
   if (!title || !content) {
     return res.json({
       success: false,
@@ -155,5 +164,5 @@ function validatePostId(id: unknown) {
 }
 
 function validatePostAuthor(post: Post, user: User) {
-  return post.author.id !== user.id;
+  return post.author.id === user.id;
 }

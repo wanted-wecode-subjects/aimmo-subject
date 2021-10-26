@@ -1,8 +1,7 @@
 import express, { Response } from "express";
 import userRepository from "../repository/user.repository";
-import { PARAMENTER_ERROR_CODE } from "../util/errorCode";
+import { LOGIN_FAIL_CODE, PARAMENTER_ERROR_CODE } from "../util/errorCode";
 
-//curl -X POST -H "Content-Type: application/json" -d "{\"id\" : \"test\", \"password\": \"123\"}" http://localhost:8080/api/user/auth
 export async function authenticate(
   req: express.Request,
   res: express.Response
@@ -10,11 +9,23 @@ export async function authenticate(
   const { id, password } = req.body;
 
   const user = await userRepository.authenticate(id, password);
-  // todo: add session
 
-  res.json({
-    success: true,
-  });
+  if (user) {
+    req.session.user = user;
+    res.json({
+      success: true,
+      data: {
+        id: user.id,
+        name: user.name,
+      },
+    });
+  } else {
+    res.json({
+      success: false,
+      error: "아이디와 비밀번호가 일치하는 계정이 없습니다.",
+      errorCode: LOGIN_FAIL_CODE,
+    });
+  }
 }
 export async function createUser(req: express.Request, res: express.Response) {
   const { id, password, name } = req.body;
@@ -32,10 +43,25 @@ export async function createUser(req: express.Request, res: express.Response) {
     data: newUser,
   });
 }
-export function getUser(req: express.Request, res: express.Response) {}
+export function getCurrentUser(req: express.Request, res: express.Response) {
+  if (req.session.user) {
+    const { id, name } = req.session.user;
+    return res.json({
+      success: true,
+      data: {
+        id,
+        name,
+      },
+    });
+  } else {
+    res.json({
+      success: false,
+    });
+  }
+}
 
 export default {
   authenticate,
   createUser,
-  getUser,
+  getCurrentUser,
 };

@@ -1,5 +1,5 @@
 import express from "express";
-
+import path from "path";
 import router from "./src/routes";
 import errorControl from "./src/middlewares/error.middleware";
 import connect from "./src/database";
@@ -11,6 +11,7 @@ const port = 8080;
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+app.use(express.static(path.join(__dirname, "./public")));
 
 declare module "express-session" {
   interface SessionData {

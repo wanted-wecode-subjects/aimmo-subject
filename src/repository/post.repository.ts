@@ -13,7 +13,7 @@ export async function createPost(title: string, content: string, author: User) {
 
 export async function getPost(id: string) {
   const postRepository = getConnection().getRepository(Post);
-  return await postRepository.findOne({ id });
+  return await postRepository.findOne({ id }, { relations: ["author"] });
 }
 
 export async function updatePost(
@@ -59,11 +59,19 @@ export async function getPaginationPosts(
     totalPage = Math.floor(totalCount / limit) + 1;
   }
 
-  let revisedOffset = offset >= totalPage ? totalPage : offset;
+  let revisedOffset;
+  if (offset >= totalPage) {
+    revisedOffset = totalPage;
+  } else if (offset < 1) {
+    revisedOffset = 1;
+  } else {
+    revisedOffset = offset;
+  }
 
   const posts = await postRepository.find({
     skip: limit * (revisedOffset - 1),
     take: limit,
+    relations: ["author"],
   });
 
   return {
