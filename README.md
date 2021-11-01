@@ -1,3 +1,37 @@
+# 프리온보딩 1주차 AIMMO사 과제
+
+해당 Repo는 프리온보딩 과제 제출때 사용됐던 프로젝트를 fork했습니다.
+
+## 개발 요구사항
+
+- 원티드 지원 과제 내용 포함
+- 게시글 카테고리
+- 게시글 검색
+- 대댓글(1 depth)
+  - 대댓글 pagination
+- 게시글 읽힘 수
+  - 같은 User가 게시글을 읽는 경우 count 수 증가하면 안 됨
+- Rest API 설계
+- Unit Test
+- 1000만건 이상의 데이터를 넣고 성능테스트 진행 결과 필요
+
+## 기존 프로젝트에서 변경할 점들
+
+- OpenAPI specification을 위한 Swagger 설정
+
+해당 링크의 문서를 참고해서 템플릿을 작성하면 좋을 듯합니다.
+[링크](https://www.section.io/engineering-education/documenting-node-js-rest-api-using-swagger/)
+
+- 추가된 요구사항들을 위한 Model 재설계
+
+1. MongoDB을 위한 TypeORM 설정.
+2. MongoDB Model과 RDB Model 구성에서의 차이점 정리
+3. 적용 및 테스트 진행하기 (Sqlite In-memory 테스트 케이스 유지가능한지 확인)
+
+- API 형태 재설계하기
+
+> 아래부터는 이전 프로젝트의 README 입니다.
+
 # 요구 사항
 
 - 글 작성, 글 확인, 글 목록 확인, 글 수정, 글 삭제가 되는 API
