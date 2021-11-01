@@ -1,19 +1,29 @@
-import { getConnection } from "typeorm";
+import { getConnection, getManager, getMongoRepository } from "typeorm";
+import { auth } from "../middlewares/auth.middle.ware";
 import { Post, PostList } from "../model/post";
+
 import { User } from "../model/user";
 
 export async function createPost(title: string, content: string, author: User) {
   const postRepository = getConnection().getRepository(Post);
+  const userRepository = getConnection().getRepository(User);
+
+  const user = await userRepository.findOne(author.id);
+  if (!user) {
+    throw new Error("Not exist user");
+  }
+
   let post = new Post();
   post.title = title;
   post.content = content;
-  post.author = author;
+  post.author = user;
   return postRepository.save(post);
 }
 
 export async function getPost(id: string) {
-  const postRepository = getConnection().getRepository(Post);
-  return await postRepository.findOne({ id }, { relations: ["author"] });
+  // const postRepository = getConnection().getRepository(Post);
+  const manager = getMongoRepository(Post);
+  return await manager.findOne(id);
 }
 
 export async function updatePost(
@@ -22,7 +32,7 @@ export async function updatePost(
   content: string
 ): Promise<Post | undefined> {
   const postRepository = getConnection().getRepository(Post);
-  const existPost = await postRepository.findOne({ id });
+  const existPost = await postRepository.findOne(id);
   // Tradeoff : findOne + save  vs update.
   // update는 존재 여부를 체크하기 어렵다.(할수는 있을듯?)
   // TODO: 개선하기
@@ -36,9 +46,9 @@ export async function updatePost(
 
 export async function deletePost(id: string) {
   const postRepository = getConnection().getRepository(Post);
-  const exitPost = await postRepository.findOne({ id });
+  const exitPost = await postRepository.findOne(id);
   if (exitPost) {
-    await postRepository.delete({ id });
+    await postRepository.delete(id);
   } else {
     throw new Error(`존재하지않는 Post(${id})를 삭제할 수 없습니다.`);
   }
@@ -61,7 +71,7 @@ export async function getPaginationPosts(
 
   let revisedOffset;
   if (offset >= totalPage) {
-    revisedOffset = totalPage;
+    revisedOffset = totalPage > 0 ? totalPage : 1;
   } else if (offset < 1) {
     revisedOffset = 1;
   } else {

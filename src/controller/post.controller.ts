@@ -1,4 +1,4 @@
-import express, { json } from "express";
+import express from "express";
 import { Post } from "../model/post";
 import { User } from "../model/user";
 import postRepository from "../repository/post.repository";
@@ -159,8 +159,8 @@ export default {
   deletePost,
 };
 
-function validatePostId(id: unknown) {
-  return typeof id === "string" && id !== "";
+function validatePostId(postId: unknown) {
+  return typeof postId === "string" && postId !== "";
 }
 
 function validatePostAuthor(post: Post, user: User) {

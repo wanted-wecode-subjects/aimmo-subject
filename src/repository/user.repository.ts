@@ -2,23 +2,25 @@ import { getConnection } from "typeorm";
 import { User } from "../model/user";
 
 export async function createUser(
-  id: string,
-  password: string,
-  name: string
+  username: string,
+  password: string
 ): Promise<User> {
   const userRepository = getConnection().getRepository(User);
   let user = new User();
-  user.id = id;
-  user.name = name;
+  user.username = username;
   user.password = password;
 
   return await userRepository.save(user);
 }
 
-export async function authenticate(id: string, password: string) {
+export async function authenticate(username: string, password: string) {
   const userRepository = getConnection().getRepository(User);
-  const user = userRepository.findOne({ id, password });
-  return user;
+  const user = await userRepository.findOne({ username });
+  if (user && user.password === password) {
+    return user;
+  } else {
+    return undefined;
+  }
 }
 
 export default {

@@ -42,5 +42,5 @@ app.use(errorControl);
 app.listen(port, () => console.log("Express Server Start ", port));
 
 connect().then(() => {
-  console.log("Inmemory Database connected.");
+  console.log("Mongo Database connected.");
 });
