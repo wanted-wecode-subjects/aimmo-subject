@@ -1,4 +1,4 @@
-import express, { Response } from "express";
+import express from "express";
 import userRepository from "../repository/user.repository";
 import { LOGIN_FAIL_CODE, PARAMENTER_ERROR_CODE } from "../util/errorCode";
 
@@ -6,17 +6,16 @@ export async function authenticate(
   req: express.Request,
   res: express.Response
 ) {
-  const { id, password } = req.body;
+  const { username, password } = req.body;
 
-  const user = await userRepository.authenticate(id, password);
+  const user = await userRepository.authenticate(username, password);
 
   if (user) {
     req.session.user = user;
     res.json({
       success: true,
       data: {
-        id: user.id,
-        name: user.name,
+        username: user.username,
       },
     });
   } else {
@@ -27,9 +26,10 @@ export async function authenticate(
     });
   }
 }
+
 export async function createUser(req: express.Request, res: express.Response) {
-  const { id, password, name } = req.body;
-  if (id === undefined || password === undefined || name === undefined) {
+  const { username, password } = req.body;
+  if (password === undefined || username === undefined) {
     return res.json({
       success: false,
       error: "name parameter is required.",
@@ -37,20 +37,20 @@ export async function createUser(req: express.Request, res: express.Response) {
     });
   }
 
-  const newUser = await userRepository.createUser(id, password, name);
+  const newUser = await userRepository.createUser(username, password);
   res.json({
     success: true,
     data: newUser,
   });
 }
+
 export function getCurrentUser(req: express.Request, res: express.Response) {
   if (req.session.user) {
-    const { id, name } = req.session.user;
+    const { username } = req.session.user;
     return res.json({
       success: true,
       data: {
-        id,
-        name,
+        username,
       },
     });
   } else {

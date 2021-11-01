@@ -1,11 +1,11 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, ManyToOne, ObjectID, ObjectIdColumn } from "typeorm";
 import { PaginationMetadata } from "./pagenation";
 import { User } from "./user";
 
 @Entity()
 export class Post {
-  @PrimaryGeneratedColumn()
-  public id: string;
+  @ObjectIdColumn()
+  public id: ObjectID;
 
   @Column()
   public title: string;
@@ -13,7 +13,7 @@ export class Post {
   @Column()
   public content: string;
 
-  @ManyToOne((type) => User, (user) => user.posts)
+  @ManyToOne((type) => User, (user) => user.posts, { cascade: true })
   public author: User;
 }
 

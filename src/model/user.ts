@@ -1,16 +1,16 @@
-import { Column, Entity, OneToMany, PrimaryColumn } from "typeorm";
+import { Column, Entity, ObjectID, ObjectIdColumn, OneToMany } from "typeorm";
 import { Post } from "./post";
 
 @Entity()
 export class User {
-  @PrimaryColumn()
-  public id: string;
+  @ObjectIdColumn()
+  public id: ObjectID;
+
+  @Column({ unique: true })
+  public username: string;
 
   @Column()
   public password: string;
-
-  @Column()
-  public name: string;
 
   @OneToMany((type) => Post, (post) => post.author)
   public posts: Post[];
